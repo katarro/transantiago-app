@@ -1,103 +1,107 @@
-            <!-- ========== Topbar Start ========== -->
-            <div class="navbar-custom">
-                <div class="topbar container-fluid">
-                    <div class="d-flex align-items-center gap-lg-2 gap-1">
+<!-- ========== Topbar Start ========== -->
+<div class="navbar-custom">
+    <div class="topbar container-fluid">
+        <div class="d-flex align-items-center gap-lg-2 gap-1">
 
-                        <!-- Sidebar Menu Toggle Button -->
-                        <button class="button-toggle-menu">
-                            <i class="mdi mdi-menu"></i>
-                        </button>
+            <!-- Sidebar Menu Toggle Button -->
+            <button class="button-toggle-menu">
+                <i class="mdi mdi-menu"></i>
+            </button>
 
-                        <!-- Horizontal Menu Toggle Button -->
-                        <button class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </button>
+            <!-- Horizontal Menu Toggle Button -->
+            <button class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                <div class="lines">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
 
-                        <!-- Topbar Search Form -->
-                        <div class="app-search dropdown d-none d-lg-block">
-                            <form action="/buscar" method="post">
-                                <div class="input-group">
-                                    <input type="search" class="form-control dropdown-toggle" id="codigoParadero" name="codigoParadero" required placeholder="Ingresa el código del paradero">
-                                    <span class="mdi mdi-magnify search-icon"></span>
-                                    <button class="input-group-text btn btn-primary" type="submit">Buscar</button>
-                                </div>
-                            </form>
-                        </div>
+            <!-- Topbar Search Form -->
+            <div class="app-search dropdown d-none d-lg-block">
+                <form action="/buscar" method="post">
+                    <div class="input-group">
+                        <input type="search" class="form-control dropdown-toggle" id="codigoParadero"
+                            name="codigoParadero" required placeholder="Ingresa tu dirección">
+                        <span class="mdi mdi-magnify search-icon"></span>
+                        <button class="input-group-text btn btn-primary" type="submit">Buscar</button>
                     </div>
-
-                    <ul class="topbar-menu d-flex align-items-center gap-3">
-                        <li class="dropdown d-lg-none">
-                            <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <i class="ri-search-line font-22"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
-                                <form class="p-3">
-                                    <input type="search" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
-                                </form>
-                            </div>
-                        </li>
-
-                        <li class="d-none d-sm-inline-block">
-                            <div class="nav-link" id="light-dark-mode" data-bs-toggle="tooltip" data-bs-placement="left" title="Theme Mode">
-                                <i class="ri-moon-line font-22"></i>
-                            </div>
-                        </li>
-
-                        <li class="d-none d-sm-inline-block">
-                            <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
-                                <i class="ri-settings-3-line font-22"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                </form>
             </div>
-            <!-- ========== Topbar End ========== -->
+        </div>
 
-            <!-- ========== Left Sidebar Start ========== -->
-            <div class="leftside-menu">
-
-                <!-- Sidebar Hover Menu Toggle Button -->
-                <div class="button-sm-hover" data-bs-toggle="tooltip" data-bs-placement="right" title="Show Full Sidebar">
-                    <i class="ri-checkbox-blank-circle-line align-middle"></i>
+        <ul class="topbar-menu d-flex align-items-center gap-3">
+            <li class="dropdown d-lg-none">
+                <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="ri-search-line font-22"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
+                    <form class="p-3">
+                        <input type="search" class="form-control" placeholder="Search ..."
+                            aria-label="Recipient's username">
+                    </form>
                 </div>
+            </li>
 
-                <!-- Full Sidebar Menu Close Button -->
-                <div class="button-close-fullsidebar">
-                    <i class="ri-close-fill align-middle"></i>
+            <li class="d-none d-sm-inline-block">
+                <div class="nav-link" id="light-dark-mode" data-bs-toggle="tooltip" data-bs-placement="left"
+                    title="Theme Mode">
+                    <i class="ri-moon-line font-22"></i>
                 </div>
+            </li>
 
-                <!-- Sidebar -left -->
-                <div class="h-100" id="leftside-menu-container" data-simplebar>
+            <li class="d-none d-sm-inline-block">
+                <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
+                    <i class="ri-settings-3-line font-22"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- ========== Topbar End ========== -->
 
-                    <!--- Sidemenu -->
-                    <ul class="side-nav">
+<!-- ========== Left Sidebar Start ========== -->
+<div class="leftside-menu">
 
-                        <li class="side-nav-title">Navigation</li>
+    <!-- Sidebar Hover Menu Toggle Button -->
+    <div class="button-sm-hover" data-bs-toggle="tooltip" data-bs-placement="right" title="Show Full Sidebar">
+        <i class="ri-checkbox-blank-circle-line align-middle"></i>
+    </div>
 
-                        <li class="side-nav-item">
-                            <a href="/" class="side-nav-link">
-                                <i class="uil-home-alt"></i>
-                                <span> Inicio </span>
-                            </a>
-                            <a href="/map" class="side-nav-link">
-                                <i class="uil-map"></i>
-                                <span> Mapa completo </span>
-                            </a>
-                            <a href="/obtener-ubicaciones" class="side-nav-link">
-                                <i class="uil-map-pin-alt"></i>
-                                <span> Recargar Ubicaciones</br></span>
-                                <i class="uil-sync"></i>
-                                <span>(30 minutos)</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <!--- End Sidemenu -->
+    <!-- Full Sidebar Menu Close Button -->
+    <div class="button-close-fullsidebar">
+        <i class="ri-close-fill align-middle"></i>
+    </div>
 
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <!-- ========== Left Sidebar End ========== -->
+    <!-- Sidebar -left -->
+    <div class="h-100" id="leftside-menu-container" data-simplebar>
+
+        <!--- Sidemenu -->
+        <ul class="side-nav">
+
+            <li class="side-nav-title">Navigation</li>
+
+            <li class="side-nav-item">
+                <a href="/" class="side-nav-link">
+                    <i class="uil-home-alt"></i>
+                    <span> Inicio </span>
+                </a>
+                <a href="/map" class="side-nav-link">
+                    <i class="uil-map"></i>
+                    <span> Mapa completo </span>
+                </a>
+                <a href="/obtener-ubicaciones" class="side-nav-link">
+                    <i class="uil-map-pin-alt"></i>
+                    <span> Recargar Ubicaciones</br></span>
+                    <i class="uil-sync"></i>
+                    <span>(30 minutos)</span>
+                </a>
+            </li>
+        </ul>
+        <!--- End Sidemenu -->
+
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- ========== Left Sidebar End ========== -->
