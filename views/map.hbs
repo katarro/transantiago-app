@@ -78,56 +78,133 @@
     </div>
 </div>
 
-
-
-
-<!-- -->
 <script>
-    // Lógica existente para inicializar el mapa (dejamos tu código intacto)
+    // Peticion GET a la API de Nominatim para obtener las coordenadas de una dirección
+    document.getElementById("direccionForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const direccion = document.getElementById("direccion").value;
 
-    // Función para obtener la ubicación del usuario
-    function obtenerUbicacionUsuario() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
+        if (!direccion) {
+            alert("Por favor, ingresa una dirección válida.");
+            return;
+        }
 
-                // Agregar marcador con la ubicación actual
-                agregarMarcadorUsuario(lat, lon);
-            }, (error) => {
-                console.error("Error al obtener la ubicación del usuario:", error);
+        try {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccion)}`;
+
+            const response = await fetch(url, {
+                headers: {
+                    "User-Agent": "transantiago-app/1.0.0 (contacto: pipe.castro.espinoza@gmail.com)",
+                },
             });
-        } else {
-            console.error("El navegador no soporta la geolocalización.");
+
+            const data = await response.json();
+
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                console.log(`Coordenadas: Latitud ${lat}, Longitud ${lon}`);
+
+                // Actualizar el mapa con las coordenadas obtenidas
+                agregarMarcador(lat, lon, direccion);
+                await buscarParaderosCercanos(lat, lon);
+            } else {
+                alert("No se encontraron resultados para la dirección ingresada.");
+            }
+        } catch (error) {
+            console.error("Error al realizar la consulta a Nominatim:", error);
+            alert("Hubo un error al procesar la solicitud. Inténtalo nuevamente.");
+        }
+    });
+
+    // Función para añadir un marcador en el mapa sin borrar lo existente
+    function agregarMarcador(lat, lon, direccion) {
+        if (!window.map) {
+            console.error("El mapa no está inicializado.");
+            return;
+        }
+
+        // Añadir un marcador al mapa
+        L.marker([lat, lon], {
+            icon: L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // Ícono personalizado
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+            }),
+        }).addTo(window.map)
+            .bindPopup(`<b>Dirección ingresada:</b> ${direccion}`)
+            .openPopup();
+
+        // Centrar el mapa en las nuevas coordenadas
+        window.map.setView([lat, lon], 16);
+    }
+
+
+    // Función para buscar paraderos cercanos utilizando Overpass API
+    async function buscarParaderosCercanos(lat, lon) {
+        const overpassUrl = "https://overpass-api.de/api/interpreter";
+        const distance = 200; // Distancia en metros para buscar paraderos cercanos
+        const query = `
+            [out:json];
+            (
+            node(around:${distance},${lat},${lon})[amenity=bus_stop];
+            node(around:${distance},${lat},${lon})[highway=bus_stop];
+            way(around:${distance},${lat},${lon})[amenity=bus_stop];
+            way(around:${distance},${lat},${lon})[highway=bus_stop];
+            relation(around:${distance},${lat},${lon})[amenity=bus_stop];
+            relation(around:${distance},${lat},${lon})[highway=bus_stop];
+            );
+            out center;
+        `;
+
+        try {
+            const response = await fetch(overpassUrl, {
+                method: "POST",
+                body: `data=${encodeURIComponent(query)}`,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            });
+
+            const data = await response.json();
+            console.log("Respuesta de Overpass API:", data);
+
+            if (data.elements.length > 0) {
+                console.log("Paraderos cercanos encontrados:", data.elements);
+
+                // Agregar marcadores para los paraderos encontrados
+                data.elements.forEach((paradero) => {
+                    const { lat, lon, tags } = paradero;
+
+                    L.marker([lat, lon], {
+                        icon: L.icon({
+                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/190/190411.png', // Ícono de paradero de bus
+                            iconSize: [32, 32],
+                            iconAnchor: [16, 32],
+                        }),
+                    }).addTo(window.map)
+                        .bindPopup(`<b>Paradero:</b> ${tags.name || "Sin nombre"}`);
+                });
+            } else {
+                console.log("No se encontraron paraderos cercanos.");
+            }
+        } catch (error) {
+            console.error("Error al consultar Overpass API:", error);
+            alert("Hubo un error al buscar paraderos cercanos.");
         }
     }
 
-    // Función para agregar marcador en la ubicación del usuario
-    function agregarMarcadorUsuario(lat, lon) {
-        const userIcon = L.icon({
-            iconUrl: 'media/geolocalizacion.png', // Cambia la ruta del ícono
-            iconSize: [32, 32],
-            iconAnchor: [16, 32]
-        });
 
-        const userMarker = L.marker([lat, lon], { icon: userIcon })
-            .addTo(map)
-            .bindPopup("<b>Tu ubicación actual</b><br>Lat: " + lat + "<br>Lon: " + lon)
-            .openPopup();
 
-        map.setView([lat, lon], 16); // Centrar el mapa en la ubicación
-    }
-
-    // Llamar a la función para obtener la ubicación del usuario
-    obtenerUbicacionUsuario();
 </script>
 
 
-<!-- -->
+
+
 
 
 
 <!-- END Contenido dinámico -->
+{{!-- ESTE SCRIPT CARGA EL MAPA Y TODOS LOS PARADEROS --}}
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
     // Coordenadas iniciales y niveles de zoom
@@ -262,4 +339,14 @@
     function submitForm() {
         document.getElementById('horaForm').submit();
     }
+</script>
+
+<script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+    rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+
 </script>

@@ -1,4 +1,10 @@
 <!-- ========== Topbar Start ========== -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+    rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+
 <div class="navbar-custom">
     <div class="topbar container-fluid">
         <div class="d-flex align-items-center gap-lg-2 gap-1">
@@ -19,14 +25,21 @@
 
             <!-- Topbar Search Form -->
             <div class="app-search dropdown d-none d-lg-block">
-                <form action="/buscar" method="post">
+
+
+
+                <form id="direccionForm" onsubmit="return false;">
                     <div class="input-group">
-                        <input type="search" class="form-control dropdown-toggle" id="codigoParadero"
-                            name="codigoParadero" required placeholder="Ingresa tu dirección">
-                        <span class="mdi mdi-magnify search-icon"></span>
-                        <button class="input-group-text btn btn-primary" type="submit">Buscar</button>
+                        <input type="text" id="direccion" name="direccion" class="form-control"
+                            placeholder="Ingresa la dirección">
+                        <button type="submit" id="buscarDireccion" class="btn btn-primary">Buscar</button>
                     </div>
                 </form>
+
+
+
+
+
             </div>
         </div>
 
